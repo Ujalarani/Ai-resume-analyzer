@@ -1,0 +1,59 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email", "description": "User email" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "role": { "type": "string", "enum": ["admin", "user"], "description": "User role" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Analysis": {
+      "title": "Analysis",
+      "description": "Resume analysis result",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "User who uploaded the resume" },
+        "name": { "type": "string", "description": "Name from resume" },
+        "email": { "type": "string", "description": "Email from resume" },
+        "resumeScore": { "type": "number", "description": "Calculated resume score" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "Time of analysis" },
+        "predictedRole": { "type": "string", "description": "Predicted job role" },
+        "skills": { "type": "array", "items": { "type": "string" }, "description": "Extracted skills" },
+        "recommendations": { "type": "object", "description": "AI recommendations" }
+      },
+      "required": ["uid", "timestamp"]
+    },
+    "Feedback": {
+      "title": "Feedback",
+      "description": "User feedback and ratings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "User who gave feedback" },
+        "rating": { "type": "number", "description": "Rating from 1-5" },
+        "comment": { "type": "string", "description": "User comment" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "Time of feedback" }
+      },
+      "required": ["uid", "rating", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "User profile collection"
+    },
+    "/analyses/{analysisId}": {
+      "schema": "Analysis",
+      "description": "Resume analysis results collection"
+    },
+    "/feedbacks/{feedbackId}": {
+      "schema": "Feedback",
+      "description": "User feedback collection"
+    }
+  }
+}
